@@ -1,0 +1,7 @@
+{
+  "name": "AppCall",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>guardar-contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">guardar-contacto</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Guardar Contacto</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <form [formGroup]="form" (ngSubmit)="save()">
+              <ion-item>
+                <ion-label position="floating">Nombre</ion-label>
+                <ion-input formControlName="nombre"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Teléfono</ion-label>
+                <ion-input formControlName="telefono"></ion-input>
+              </ion-item>
+
+              <div class="button-container">
+                <ion-button expand="full" type="submit" [disabled]="!form.valid">Guardar</ion-button>
+              </div>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
