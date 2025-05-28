@@ -1,440 +1,127 @@
-/* Chat moderno estilo WhatsApp - Diseño completamente renovado */
-:root {
-  --whatsapp-green: #25d366;
-  --whatsapp-green-dark: #128c7e;
-  --whatsapp-blue: #34b7f1;
-  --whatsapp-gray: #f0f0f0;
-  --whatsapp-dark-gray: #e5e5ea;
-  --message-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --message-radius: 7.5px;
-  --transition: all 0.2s ease;
-}
-
-/* Header estilo WhatsApp */
-ion-header ion-toolbar {
-  --background: var(--whatsapp-green);
+/* === HEADER === */
+ion-toolbar {
+  --background: #128C7E;
   --color: white;
-  height: 60px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  ion-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  ion-buttons ion-button {
+    --color: white;
+    --padding-start: 0;
+    --padding-end: 0;
+  }
 }
 
-ion-header ion-toolbar ion-button:first-child {
-  --color: white;
-  --background: transparent;
-  --background-hover: rgba(255, 255, 255, 0.1);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-transform: none;
-  margin-left: 8px;
-}
-
-ion-header ion-title {
-  font-weight: 600 !important;
-  font-size: 1.1rem !important;
-  color: white !important;
-  text-align: center;
-}
-
-ion-header ion-buttons ion-button {
-  --color: white;
-  --background: transparent;
-  --background-hover: rgba(255, 255, 255, 0.1);
-  --border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin-right: 8px;
-}
-
-ion-header ion-buttons ion-button:hover {
-  transform: scale(1.1);
-}
-
-/* Contenido del chat */
-ion-content {
-  --background: #e5ddd5;
-  background-image: 
-    linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-}
-
-/* Contenedor de mensajes */
-.messages-container {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* Mensaje base */
+/* === MENSAJES === */
 .message {
-  display: flex;
-  margin-bottom: 2px;
-  max-width: 100%;
-  animation: messageAppear 0.3s ease-out;
-}
+  max-width: 75%;
+  margin-bottom: 8px;
 
-@keyframes messageAppear {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
+  &.mine {
+    margin-left: auto;
+
+    .bubble {
+      background: #DCF8C6;
+      border-radius: 12px 12px 0 12px;
+    }
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  &:not(.mine) {
+    .bubble {
+      background: white;
+      border-radius: 12px 12px 12px 0;
+    }
   }
 }
 
-/* Mensajes recibidos */
-.message:not(.mine) {
-  justify-content: flex-start;
-}
-
-.message:not(.mine) .bubble {
-  background: white;
-  color: #303030;
-  margin-left: 8px;
-  border-bottom-left-radius: 2px;
-  box-shadow: var(--message-shadow);
-  position: relative;
-}
-
-.message:not(.mine) .bubble::before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border: 4px solid transparent;
-  border-right-color: white;
-  border-bottom-color: white;
-  border-left: none;
-  border-top: none;
-}
-
-/* Mis mensajes */
-.message.mine {
-  justify-content: flex-end;
-}
-
-.message.mine .bubble {
-  background: #6fff00;
-  color: #303030;
-  margin-right: 8px;
-  border-bottom-right-radius: 2px;
-  box-shadow: var(--message-shadow);
-  position: relative;
-}
-
-.message.mine .bubble::before {
-  content: '';
-  position: absolute;
-  right: -8px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border: 4px solid transparent;
-  border-left-color: #dcf8c6;
-  border-bottom-color: #dcf8c6;
-  border-right: none;
-  border-top: none;
-}
-
-/* Burbuja base */
 .bubble {
-  max-width: 80%;
-  min-width: 48px;
-  padding: 6px 7px 8px 9px;
-  border-radius: var(--message-radius);
-  font-size: 14px;
-  line-height: 1.3;
-  word-wrap: break-word;
-  position: relative;
-  display: inline-block;
+  padding: 10px 12px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
 }
 
-/* Mensajes de texto */
-.bubble:not(.audio-msg):not(.file-msg):not(.media-msg):not(.location-msg) {
-  padding: 6px 7px 8px 9px;
-}
-
-/* Timestamp en mensajes de texto */
-.bubble:not(.audio-msg):not(.file-msg):not(.media-msg):not(.location-msg)::after {
-  content: attr(data-time);
-  font-size: 11px;
-  color: #999;
-  position: absolute;
-  bottom: 2px;
-  right: 6px;
-  line-height: 1;
-}
-
-.message.mine .bubble:not(.audio-msg):not(.file-msg):not(.media-msg):not(.location-msg)::after {
-  color: #666;
-}
-
-/* Mensajes de audio estilo WhatsApp */
-.audio-msg {
-  display: flex !important;
-  align-items: center;
-  padding: 8px 12px !important;
-  min-width: 200px !important;
-  gap: 8px;
-}
-
-.audio-msg ion-icon {
-  font-size: 18px;
-  color: var(--whatsapp-green);
-  background: rgba(37, 211, 102, 0.1);
-  padding: 8px;
-  border-radius: 50%;
-  min-width: 34px;
-  min-height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.audio-msg .audio-controls {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.audio-msg .audio-wave {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  height: 20px;
-}
-
-.audio-msg .wave-bar {
-  width: 3px;
-  background: #d1d7db;
-  border-radius: 2px;
-  transition: var(--transition);
-}
-
-.audio-msg .wave-bar.active {
-  background: var(--whatsapp-green);
-}
-
-.audio-msg .audio-duration {
-  font-size: 12px;
-  color: #667781;
-  font-weight: 400;
-}
-
-.message.mine .audio-msg .audio-duration {
-  color: #4a4a4a;
-}
-
-/* Generar barras de onda */
-.audio-msg .wave-bar:nth-child(1) { height: 8px; }
-.audio-msg .wave-bar:nth-child(2) { height: 16px; }
-.audio-msg .wave-bar:nth-child(3) { height: 12px; }
-.audio-msg .wave-bar:nth-child(4) { height: 20px; }
-.audio-msg .wave-bar:nth-child(5) { height: 6px; }
-.audio-msg .wave-bar:nth-child(6) { height: 14px; }
-.audio-msg .wave-bar:nth-child(7) { height: 18px; }
-.audio-msg .wave-bar:nth-child(8) { height: 10px; }
-.audio-msg .wave-bar:nth-child(9) { height: 16px; }
-.audio-msg .wave-bar:nth-child(10) { height: 8px; }
-
-/* Ocultar el audio nativo */
-.audio-msg audio {
-  display: none;
-}
-
-/* Mensajes de archivo */
-.file-msg {
-  display: flex !important;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px !important;
-  border: 1px solid #e0e0e0;
-  background: #f8f9fa !important;
-}
-
-.file-msg ion-icon {
-  font-size: 24px;
-  color: var(--whatsapp-blue);
-  background: rgba(52, 183, 241, 0.1);
-  padding: 8px;
-  border-radius: 6px;
-}
-
-.file-msg a {
-  color: #303030;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.file-msg a:hover {
-  text-decoration: underline;
-}
-
-/* Mensajes multimedia */
-.media-msg {
-  padding: 0 !important;
-  background: transparent !important;
-  overflow: hidden;
-}
-
-.media-msg img,
-.media-msg video {
-  width: 100%;
-  max-width: 250px;
-  border-radius: var(--message-radius);
-  display: block;
-}
-
-/* Mensajes de ubicación */
-.location-msg {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px !important;
-  background: #f0f8ff !important;
-  border: 1px solid #e0e8f0;
-}
-
-.location-msg ion-icon {
-  font-size: 24px;
-  color: var(--whatsapp-blue);
-}
-
-.location-msg ion-button {
-  --background: var(--whatsapp-blue);
-  --color: white;
-  --border-radius: 20px;
-  font-size: 13px;
-  height: 32px;
-}
-
-/* Footer estilo WhatsApp */
+/* === FOOTER === */
 ion-footer {
-  background: #fd0000;
-  border-top: 1px solid #0099ff;
-}
+  ion-toolbar {
+    --background: #128C7E;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
 
-ion-footer ion-toolbar {
-  --background: transparent;
-  padding: 8px;
-}
+  ion-item.input-bar {
+    --background: #ffffff;
+    --border-radius: 24px;
+    margin: 6px 12px;
+    padding-left: 12px;
+    align-items: center;
+  }
 
-/* Input area */
-ion-footer ion-item {
-  --background: white;
-  --border-radius: 21px;
-  margin: 4px 8px 8px 8px;
-  border-radius: 21px;
-  border: 1px solid #d1d7db;
-  min-height: 42px;
-}
-
-ion-input {
-  --padding-start: 16px;
-  --padding-end: 8px;
-  font-size: 15px;
-  --placeholder-color: #8696a0;
-}
-
-/* Botón enviar */
-ion-footer ion-button[slot="end"] {
-  --background: var(--whatsapp-green);
-  --color: white;
-  --border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  margin: 0;
-  font-size: 16px;
-}
-
-ion-footer ion-button[slot="end"]:not([disabled]):hover {
-  --background: var(--whatsapp-green-dark);
-  transform: scale(1.05);
-}
-
-ion-footer ion-button[slot="end"][disabled] {
-  --background: #bbb;
-  --color: white;
-  opacity: 0.6;
-}
-
-/* Opciones de adjuntos */
-.attachment-options {
-  justify-content: center !important;
-  padding: 4px 8px 8px 8px;
-  gap: 12px;
-}
-
-.attachment-options ion-button {
-  --background: var(--whatsapp-green);
-  --color: white;
-  --border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin: 0;
-}
-
-.attachment-options ion-button:hover {
-  --background: var(--whatsapp-green-dark);
-  transform: scale(1.1);
-}
-
-.attachment-options ion-button ion-icon {
-  font-size: 18px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .bubble {
-    max-width: 85%;
+  ion-input {
     font-size: 14px;
+    color: #333;
   }
-  
-  .audio-msg {
-    min-width: 180px !important;
+
+  ion-button[slot="end"] {
+    --background: #128C7E;
+    --color: white;
+    --border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 6px;
+    font-size: 18px;
+    opacity: 1;
+box-shadow: none;
   }
-  
-  .media-msg img,
-  .media-msg video {
-    max-width: 220px;
-  }
-  
+
   .attachment-options {
-    gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 12px 10px;
+    background: #128C7E;
+
+    ion-button {
+      --background: transparent;
+      --color: white;
+      font-size: 22px;
+    }
   }
-  
-  .attachment-options ion-button {
-    width: 36px;
-    height: 36px;
+}
+
+audio {
+  width: 100%;
+  height: 36px;
+  outline: none;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: none;
+  margin-top: 6px;
+
+  &::-webkit-media-controls-panel {
+    background-color: #e0f2f1 !important;
+    border-radius: 8px;
+  }
+
+  &::-webkit-media-controls-play-button {
+    background-color: #128C7E;
+    border-radius: 50%;
+  }
+
+  &::-webkit-media-controls-current-time-display,
+  &::-webkit-media-controls-time-remaining-display {
+    color: #2f2f2f;
+  }
+
+  &::-webkit-media-controls-timeline {
+    background-color: #b2dfdb;
+    border-radius: 999px;
+  }
+
+  &::-webkit-media-controls-volume-slider {
+    background-color: #c8e6c9;
   }
 }
 
-/* Estados de entrega */
-.message.mine .bubble::after {
-  margin-left: 4px;
-}
-
-.message.sending .bubble {
-  opacity: 0.7;
-}
-
-.message.delivered .bubble::after {
-  content: '✓';
-  color: #999;
-}
-
-.message.read .bubble::after {
-  content: '✓✓';
-  color: var(--whatsapp-blue);
-}
