@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { ContactService } from 'src/app/shared/services/contact.Service';
 import { Contacto } from 'src/app/interfaces/contacto';
-import { ContactoService } from 'src/app/shared/services/contacto.service';
 
 @Component({
   selector: 'app-home',
@@ -11,34 +10,43 @@ import { ContactoService } from 'src/app/shared/services/contacto.service';
   standalone: false,
 })
 export class HomePage {
-
-
-  contacts: Contacto[] = [];
-  uid!: string;
+  contactos: Contacto[] = [];
+  uid: string = '';
+  loading: boolean = false;
+  error: string = '';
 
   constructor(
-    private contactService: ContactoService,
+    private contactService: ContactService,
     private router: Router,
-    private authService: AuthenticationService,
-  ) {
-    this.authService.getUsuarioActual().then(value => {
-      this.uid = value?.uid || '';
-    });
-  }
+  ) {}
 
   async ngOnInit() {
-    this.contactService.contacts$.subscribe(contacts => {
-      this.contacts = contacts;
-    });
-    await this.loadContacts();
+    try {
+      this.loading = true;
+      this.uid = this.contactService.getCurrentUserId();
+      this.contactos = await this.contactService.getContacts(this.uid);
+    } catch (err) {
+      this.error = 'Error cargando contactos';
+      console.error(err);
+    } finally {
+      this.loading = false;
+    }
   }
 
-  async loadContacts() {
-    await this.contactService.loadAll(this.uid);
+  async eliminarContacto(contactId: string) {
+    try {
+      await this.contactService.deleteContact(this.uid, contactId);
+      this.contactos = await this.contactService.getContacts(this.uid);
+    } catch (err) {
+      console.error('Error eliminando contacto', err);
+    }
   }
 
-  async goToDetail(id: any) {
-    await this.router.navigate(['/contact-detail/' + id]);
-  }
+ async goToChat(phoneNumber: string) {
+  await this.router.navigate(['/chats', phoneNumber]);
+}
 
+  async editContact(contactId: string) {
+    await this.router.navigate(['../add.contact', contactId]);
+  }
 }

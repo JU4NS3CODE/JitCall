@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input formControlName="name" type="text"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="errorControl['name'].touched && errorControl['name'].invalid">
+        El nombre es requerido.
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Número de Teléfono</ion-label>
+        <ion-input formControlName="phoneNumber" type="tel" maxlength="10"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="errorControl['phoneNumber'].touched && errorControl['phoneNumber'].invalid">
+        Número inválido (10 dígitos requeridos).
+      </ion-note>
+    </ion-list>
+
+    <ion-button expand="block" type="submit" [disabled]="contactForm.invalid">
+      Buscar y Agregar Contacto
+    </ion-button>
+
+    <ion-text color="danger" *ngIf="error">
+      <p class="ion-padding-top">{{ error }}</p>
+    </ion-text>
+
+    <ion-text color="success" *ngIf="successMessage">
+      <p class="ion-padding-top">{{ successMessage }}</p>
+    </ion-text>
+  </form>
+</ion-content>

@@ -1,0 +1,22 @@
+<ion-header class="incoming-call-header">
+  <ion-toolbar>
+    <ion-title>Llamada entrante</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="incoming-call-page" fullscreen="true">
+  <div class="call-content">
+    <h2 class="caller-name">{{ callername || 'Incoming call' }}</h2>
+    <p class="call-type">Videollamada</p>
+
+    <div class="call-buttons">
+      <ion-button class="circular-button accept-button" (click)="acceptCall()">
+        <ion-icon name="videocam-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button class="circular-button reject-button" (click)="rejectCall()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -17,7 +17,6 @@ export class PushNotiService {
     private firestore: Firestore,
     private auth: Auth,
     private navCtrl: NavController,
-    private authService: AuthenticationService
   ) {}
 
    async registerPush() {
@@ -35,10 +34,10 @@ export class PushNotiService {
 
     await PushNotifications.addListener('registration', async (token) => {
       console.log('📲 Token FCM recibido:', token.value);
-      // const user = this.auth.currentUser;
+      const user = this.auth.currentUser;
 
-        // const userRef = doc(this.firestore, `users/${user.uid}`);
-        // await updateDoc(userRef, {token: token.value});
+      const userRef = doc(this.firestore, `users/${user?.uid}`);
+      await updateDoc(userRef, {token: token.value});
     });
 
     await PushNotifications.addListener('registrationError', (err) => {
@@ -48,19 +47,19 @@ export class PushNotiService {
     await PushNotifications.addListener('pushNotificationReceived', (notification) => {
       console.log('🔔 Notificación recibida:', JSON.stringify(notification));
 
-      // const meetingId = notification.data?.meetingId;
-      // const name = notification.data?.name;
-      // const user = this.auth.currentUser;
-      // console.log("user of fcm : " + JSON.stringify(user))
+      const meetingId = notification.data?.meetingId;
+      const name = notification.data?.name;
+      const user = this.auth.currentUser;
+      console.log("user of fcm : " + JSON.stringify(user))
 
-      //   if (meetingId && name) {
-      //     this.navCtrl.navigateForward(['/call'], {
-      //       state: {
-      //         meetingId: meetingId,
-      //         callerName: name
-      //       }
-      //     });
-      //   }
+      if (meetingId && name) {
+           this.navCtrl.navigateForward(['/llamada'], {
+             state: {
+               meetingId: meetingId,
+               callerName: name
+             }
+           });
+         }
     });
 
     await LocalNotifications.addListener('localNotificationActionPerformed', (event) => {
@@ -72,7 +71,7 @@ export class PushNotiService {
       if (meetingId && callerName) {
         console.log('📲 Volviendo a pantalla de llamada entrante');
 
-        this.navCtrl.navigateForward(['/call'], {
+        this.navCtrl.navigateForward(['/llamada'], {
           state: {
             meetingId: meetingId,
             callerName: callerName

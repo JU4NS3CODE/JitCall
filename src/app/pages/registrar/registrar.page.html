@@ -1,61 +1,108 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrarse</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <div class="register-container">
 
-  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div class="header-section">
+      <ion-icon name="person-add-outline" size="large"></ion-icon>
+      <h1>Crear Cuenta</h1>
+      <p>Completa tus datos para registrarte</p>
+    </div>
 
-    <ion-item>
-      <ion-label position="floating">Correo electrónico</ion-label>
-      <ion-input type="email" formControlName="correo"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="registerForm.get('correo')?.touched && registerForm.get('correo')?.invalid">
-      Correo válido requerido
-    </ion-note>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
 
-    <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input type="text" formControlName="nombre"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="registerForm.get('nombre')?.touched && registerForm.get('nombre')?.invalid">
-      Mínimo 6 caracteres
-    </ion-note>
+      <ion-item class="form-item">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input
+          type="text"
+          formControlName="nombre"
+          placeholder="Tu nombre">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="registerForm.get('nombre')?.touched && registerForm.get('nombre')?.invalid" class="error-text">
+        <small *ngIf="registerForm.get('nombre')?.errors?.['required']">El nombre es requerido</small>
+        <small *ngIf="registerForm.get('nombre')?.errors?.['minlength']">Debe tener al menos 2 caracteres</small>
+      </div>
 
-    <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input type="text" formControlName="apellido"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="registerForm.get('apellido')?.touched && registerForm.get('apellido')?.invalid">
-      Mínimo 6 caracteres
-    </ion-note>
+      <ion-item class="form-item">
+        <ion-label position="stacked">Apellido</ion-label>
+        <ion-input
+          type="text"
+          formControlName="apellido"
+          placeholder="Tu apellido">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="registerForm.get('apellido')?.touched && registerForm.get('apellido')?.invalid" class="error-text">
+        <small *ngIf="registerForm.get('apellido')?.errors?.['required']">El apellido es requerido</small>
+        <small *ngIf="registerForm.get('apellido')?.errors?.['minlength']">Debe tener al menos 2 caracteres</small>
+      </div>
 
-    <ion-item>
-      <ion-label position="floating">Teléfono</ion-label>
-      <ion-input type="tel" formControlName="telefono"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="registerForm.get('telefono')?.touched && registerForm.get('telefono')?.invalid">
-      Mínimo 6 caracteres
-    </ion-note>
+      <ion-item class="form-item">
+        <ion-label position="stacked">Correo Electrónico</ion-label>
+        <ion-input
+          type="email"
+          formControlName="correo"
+          placeholder="ejemplo@correo.com">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="registerForm.get('correo')?.touched && registerForm.get('correo')?.invalid" class="error-text">
+        <small *ngIf="registerForm.get('correo')?.errors?.['required']">El correo es requerido</small>
+        <small *ngIf="registerForm.get('correo')?.errors?.['email']">Ingresa un correo válido</small>
+      </div>
 
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" formControlName="contraseña"></ion-input>
-    </ion-item>
-    <ion-note color="danger" *ngIf="registerForm.get('contraseña')?.touched && registerForm.get('contraseña')?.invalid">
-      Mínimo 6 caracteres
-    </ion-note>
+      <ion-item class="form-item">
+        <ion-label position="stacked">Teléfono</ion-label>
+        <ion-input
+          type="tel"
+          formControlName="telefono"
+          placeholder="Número de teléfono">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="registerForm.get('telefono')?.touched && registerForm.get('telefono')?.invalid" class="error-text">
+        <small *ngIf="registerForm.get('telefono')?.errors?.['required']">El teléfono es requerido</small>
+        <small *ngIf="registerForm.get('telefono')?.errors?.['minlength']">Debe tener al menos 6 caracteres</small>
+      </div>
 
-    <ion-button expand="block" type="submit" [disabled]="registerForm.invalid">
-      Registrarse
-    </ion-button>
+      <ion-item class="form-item">
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input
+          type="password"
+          formControlName="contraseña"
+          placeholder="Mínimo 6 caracteres">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="registerForm.get('contraseña')?.touched && registerForm.get('contraseña')?.invalid" class="error-text">
+        <small *ngIf="registerForm.get('contraseña')?.errors?.['required']">La contraseña es requerida</small>
+        <small *ngIf="registerForm.get('contraseña')?.errors?.['minlength']">Debe tener al menos 6 caracteres</small>
+      </div>
 
-    <ion-button expand="block" fill="clear" (click)="goToLogin()">
-      ¿Ya tienes cuenta? Inicia sesión
-    </ion-button>
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="registerForm.invalid || isLoading"
+        class="register-button">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">Registrarse</span>
+      </ion-button>
 
-  </form>
+    </form>
 
+    <div class="login-link">
+      <p>¿Ya tienes cuenta?</p>
+      <ion-button
+        fill="clear"
+        (click)="goToLogin()"
+        [disabled]="isLoading">
+        Iniciar Sesión
+      </ion-button>
+    </div>
+
+  </div>
 </ion-content>

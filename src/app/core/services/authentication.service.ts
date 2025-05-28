@@ -1,57 +1,60 @@
-import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Injectable, inject } from '@angular/core';
 import {
+  Auth,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  User,
-} from 'firebase/auth';
+  signOut,
+  authState,
+  User
+} from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+import { UsuarioService } from 'src/app/shared/services/usuario.service';
+
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthenticationService {
-  constructor(private auth: Auth) {}
+  private auth = inject(Auth);
 
-  async registrar(email: string, password: string): Promise<User> {
-    const userCredential = await createUserWithEmailAndPassword(
-      this.auth,
-      email,
-      password
-    );
-    return userCredential.user;
+  constructor(private usuarioService: UsuarioService) {}
+
+  get user$(): Observable<User | null> {
+    return authState(this.auth);
   }
 
-  async login(email: string, password: string): Promise<User> {
-    const userCredential = await signInWithEmailAndPassword(
-      this.auth,
-      email,
-      password
-    );
-    return userCredential.user;
+  get currentUser(): User | null {
+    return this.auth.currentUser;
   }
 
-  salir() {
-    return this.auth.signOut();
+  async registrar(email: string, password: string) {
+    const credential = await createUserWithEmailAndPassword(this.auth, email, password);
+    return credential.user;
   }
 
-  async getUsuarioActual(): Promise<User | null> {
-    const user = this.auth.currentUser;
-
-    if (user) {
-      return user;
-    } else {
-      return new Promise((resolve) => {
-        const unsubscribe = this.auth.onAuthStateChanged((currentUser) => {
-          unsubscribe();
-          resolve(currentUser);
-        });
-      });
-    }
+  async login(email: string, password: string) {
+    const credential = await signInWithEmailAndPassword(this.auth, email, password);
+    const user = credential.user;
+    const userData = await this.usuarioService.buscar(user.uid);
+    if (!userData) throw new Error('Usuario no encontrado en Firestore');
+    return user;
   }
 
-  async restaurarContraseña(email: string): Promise<void> {
-    await sendPasswordResetEmail(this.auth, email);
-    console.log('Password reset email sent');
+  async logout() {
+    await signOut(this.auth);
+  }
+
+  isAuthenticated(): boolean {
+    return this.currentUser !== null;
+  }
+
+  getCurrentUserId(): string | null {
+    return this.currentUser?.uid || null;
+  }
+
+  async getUsuarioActual() {
+    const currentUser = this.currentUser;
+    if (!currentUser) return null;
+    return await this.usuarioService.buscar(currentUser.uid);
   }
 }

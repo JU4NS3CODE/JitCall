@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="mensajes$ | async as messages">
+    <div
+      *ngFor="let msg of messages"
+      class="message"
+      [class.mine]="msg.senderId === idUsuarioActual"
+    >
+      <!-- Texto plano -->
+      <!-- <div *ngIf="msg.type === 'text'" class="bubble">{{ msg.content }}</div> -->
+
+      <!-- Audio -->
+      <!-- <div *ngIf="msg.type === 'audio'" class="bubble audio-msg">
+        <ion-icon name="mic"></ion-icon>
+        <audio [src]="msg.content" controls></audio>
+      </div> -->
+
+      <!-- Archivo -->
+      <div *ngIf="msg.type === 'file'" class="bubble file-msg">
+        <ion-icon name="document"></ion-icon>
+        <a [href]="msg.content" target="_blank">{{ msg.filename || 'Archivo adjunto' }}</a>
+      </div>
+
+      <!-- Imagen o video -->
+      <!-- <div *ngIf="msg.type === 'image'" class="bubble media-msg">
+        <img [src]="msg.content" alt="imagen enviada" />
+      </div> -->
+
+      <!-- <div *ngIf="msg.type === 'video'" class="bubble media-msg">
+        <video [src]="msg.content" controls></video>
+      </div> -->
+
+      <!-- Localización -->
+      <!-- <div *ngIf="msg.type === 'location'" class="bubble location-msg">
+        <ion-icon name="location"></ion-icon>
+        <ion-button expand="full" >
+          Ver ubicación
+        </ion-button>
+      </div> -->
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-input
+        [(ngModel)]="nuevoMensaje"
+        placeholder="Escribe un mensaje..."
+      ></ion-input>
+      <ion-button
+        slot="end"
+        (click)="enviarMensaje()"
+        [disabled]="!nuevoMensaje.trim()"
+      >Enviar</ion-button>
+    </ion-item>
+    <ion-buttons class="attachment-options">
+      <ion-button><ion-icon name="mic"></ion-icon></ion-button>
+      <ion-button (click)="enviarFoto()"><ion-icon name="image"></ion-icon></ion-button>
+      <ion-button (click)="seleccionarArchivo()"><ion-icon name="document"></ion-icon></ion-button>
+      <ion-button><ion-icon name="videocam"></ion-icon></ion-button>
+      <ion-button (click)="obtenerUbicacion()"><ion-icon name="location"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
