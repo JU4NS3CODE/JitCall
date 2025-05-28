@@ -33,6 +33,10 @@ const routes: Routes = [
     path: 'llamada',
     loadChildren: () => import('./pages/llamada/llamada.module').then( m => m.LlamadaPageModule)
   },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  }
 ];
 
 @NgModule({

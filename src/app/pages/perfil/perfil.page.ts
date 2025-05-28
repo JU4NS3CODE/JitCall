@@ -96,7 +96,7 @@ export class PerfilPage implements OnInit {
         }
 
         const path = `usuarios/${this.user.uid}_${this.imageFile.name}`;
-        nuevaFotoUrl = await this.supabaseService.uploadImage(this.imageFile, path);
+        nuevaFotoUrl = await this.supabaseService.uploadFile(this.imageFile, path);
       }
 
 
