@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Chat</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="llamar()">
+        <ion-icon slot="icon-only" name="call-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,13 +17,13 @@
       [class.mine]="msg.senderId === idUsuarioActual"
     >
       <!-- Texto plano -->
-      <!-- <div *ngIf="msg.type === 'text'" class="bubble">{{ msg.content }}</div> -->
+      <div *ngIf="msg.type === 'text'" class="bubble">{{ msg.content }}</div>
 
       <!-- Audio -->
-      <!-- <div *ngIf="msg.type === 'audio'" class="bubble audio-msg">
+      <div *ngIf="msg.type === 'audio'" class="bubble audio-msg">
         <ion-icon name="mic"></ion-icon>
         <audio [src]="msg.content" controls></audio>
-      </div> -->
+      </div>
 
       <!-- Archivo -->
       <div *ngIf="msg.type === 'file'" class="bubble file-msg">
@@ -27,21 +32,21 @@
       </div>
 
       <!-- Imagen o video -->
-      <!-- <div *ngIf="msg.type === 'image'" class="bubble media-msg">
+      <div *ngIf="msg.type === 'image'" class="bubble media-msg">
         <img [src]="msg.content" alt="imagen enviada" />
-      </div> -->
+      </div>
 
-      <!-- <div *ngIf="msg.type === 'video'" class="bubble media-msg">
+      <div *ngIf="msg.type === 'video'" class="bubble media-msg">
         <video [src]="msg.content" controls></video>
-      </div> -->
+      </div>
 
       <!-- Localización -->
-      <!-- <div *ngIf="msg.type === 'location'" class="bubble location-msg">
+      <div *ngIf="msg.type === 'location'" class="bubble location-msg">
         <ion-icon name="location"></ion-icon>
         <ion-button expand="full" >
           Ver ubicación
         </ion-button>
-      </div> -->
+      </div>
     </div>
   </div>
 </ion-content>

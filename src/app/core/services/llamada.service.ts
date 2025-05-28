@@ -15,7 +15,6 @@ export class LlamadaService {
     private navCtrl: NavController,
     // private toastService: ToastService,
     private authService: Auth,
-    private notiService: NotificacionesService,
     private contactSrv: ContactService
   ) {}
 
@@ -47,18 +46,6 @@ export class LlamadaService {
     const meetingId = this.generateId();
 
     this.launchCall(meetingId, uidCurrent.displayName).then(() => {
-      this.notiService.enviarNoti('incoming_call', {
-        meetingId,
-        userSend: {
-          uid: uidCurrent.uid,
-          name: uidCurrent.displayName || "",
-        },
-        userReceiver: {
-          uid: userRecivier.uid || "",
-          name: userRecivier.nombre,
-          token: userRecivier.token,
-        },
-      });
       console.log("APPCALL : Llamada iniciada")
     });
   }

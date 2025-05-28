@@ -10,6 +10,7 @@ import { Usuario } from 'src/app/interfaces/usuario';
 import { LocalizacionService } from 'src/app/shared/services/localizacion.service';
 import { CamaraService } from 'src/app/shared/services/camara.service';
 import { VozService } from 'src/app/shared/services/voz.service';
+import { LlamadaService } from 'src/app/core/services/llamada.service';
 
 @Component({
   selector: 'app-chats',
@@ -41,7 +42,7 @@ export class ChatsPage implements OnInit {
     private camaraSrv: CamaraService,
     private vozSrv: VozService,
     private supabaseService: SupabaseService,
-    private modalCtrl: ModalController
+    private llamadaSrv: LlamadaService
   ) {}
 
   async ngOnInit() {
@@ -81,6 +82,14 @@ export class ChatsPage implements OnInit {
     this.chatServicio.enviarMensaje(this.idChat, mensaje);
   }
 
+  llamar(){
+    const numeroTelefono = this.otroUsuario?.telefono;
+    if (numeroTelefono) {
+      this.llamadaSrv.joinCall(numeroTelefono)
+    } else {
+      console.error('Número de teléfono no disponible para llamar.');
+    }
+  }
   async seleccionarArchivo() {
     const input = document.createElement('input');
     input.type = 'file';
