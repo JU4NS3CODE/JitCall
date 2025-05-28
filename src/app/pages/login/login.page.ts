@@ -61,6 +61,7 @@ export class LoginPage implements OnInit {
       await loading.dismiss();
 
       console.log('Login exitoso:', user.uid);
+      localStorage.setItem('user_id', user.uid);
 
       await this.showAlert('Éxito', 'Sesión iniciada correctamente');
 

@@ -8,6 +8,10 @@
 		"classpath": "com.capacitorjs.plugins.camera.CameraPlugin"
 	},
 	{
+		"pkg": "@capacitor/geolocation",
+		"classpath": "com.capacitorjs.plugins.geolocation.GeolocationPlugin"
+	},
+	{
 		"pkg": "@capacitor/haptics",
 		"classpath": "com.capacitorjs.plugins.haptics.HapticsPlugin"
 	},
@@ -30,5 +34,9 @@
 	{
 		"pkg": "callme-plugin",
 		"classpath": "com.plugin.plugins.callme.AppCallPluginPlugin"
+	},
+	{
+		"pkg": "capacitor-voice-recorder",
+		"classpath": "com.tchvu3.capacitorvoicerecorder.VoiceRecorder"
 	}
 ]

@@ -25,7 +25,7 @@ export class ChatsPage implements OnInit {
   nuevoMensaje: string = '';
 
   idUsuarioActual!: string;
-  idOtroUsuario?: string;
+  telefoOtro?: string;
   usuarioActual?: Usuario;
   otroUsuario?: Usuario;
 
@@ -46,17 +46,18 @@ export class ChatsPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.idOtroUsuario = this.ruta.snapshot.paramMap.get('telefono')!;
+    this.telefoOtro = this.ruta.snapshot.paramMap.get('telefono')!;
     this.idUsuarioActual = localStorage.getItem('user_id') || '';
     this.usuarioActual = await this.usuarioSrv.buscar(this.idUsuarioActual);
-    this.otroUsuario = await this.usuarioSrv.buscarPorTelefono(this.idOtroUsuario);
-
+    this.otroUsuario = await this.usuarioSrv.buscarPorTelefono(this.telefoOtro);
+    console.log('Usuario actual:', this.usuarioActual);
+    console.log('Otro usuario:', this.otroUsuario);
     this.chatServicio
-      .crearOuObtenerChat(this.idUsuarioActual, this.idOtroUsuario)
-      .then((chatId) => {
-        this.idChat = chatId;
-        this.mensajes$ = this.chatServicio.escucharMensajes(chatId);
-      });
+       .crearOuObtenerChat(this.idUsuarioActual, this.otroUsuario?.uid || '')
+       .then((chatId) => {
+         this.idChat = chatId;
+         this.mensajes$ = this.chatServicio.escucharMensajes(chatId);
+       });
   }
 
   enviarMensaje() {
@@ -135,12 +136,12 @@ export class ChatsPage implements OnInit {
     const archivo = new File([blob], `${Date.now()}.jpg`, { type: blob.type });
 
     this.supabaseService
-      .uploadFile(archivo, `${this.idUsuarioActual}/${archivo.name}`)
+      .uploadFile(archivo, `${this.idUsuarioActual}_${archivo.name}`)
       .then((url) => {
         this.enviarOtroMensaje(url, 'image');
       })
       .catch((error) => {
-        console.error('Error subiendo imagen:', error);
+        console.error('Error subiendo imagen:', JSON.stringify(error));
       });
   })
   .catch((error) => {

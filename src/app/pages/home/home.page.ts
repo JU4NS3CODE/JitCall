@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContactService } from 'src/app/shared/services/contact.Service';
 import { Contacto } from 'src/app/interfaces/contacto';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomePage {
   constructor(
     private contactService: ContactService,
     private router: Router,
+    private authService: AuthenticationService // Assuming this is the correct service for authentication
   ) {}
 
   async ngOnInit() {
@@ -48,5 +50,13 @@ export class HomePage {
 
   async editContact(contactId: string) {
     await this.router.navigate(['../add.contact', contactId]);
+  }
+
+  cerrar(){
+    this.authService.logout().then(() => {
+      this.router.navigate(['/login']);
+    }).catch(error => {
+      console.error('Error al cerrar sesión:', error);
+    });
   }
 }

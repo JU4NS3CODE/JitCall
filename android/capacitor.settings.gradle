@@ -8,6 +8,9 @@ project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/
 include ':capacitor-camera'
 project(':capacitor-camera').projectDir = new File('../node_modules/@capacitor/camera/android')
 
+include ':capacitor-geolocation'
+project(':capacitor-geolocation').projectDir = new File('../node_modules/@capacitor/geolocation/android')
+
 include ':capacitor-haptics'
 project(':capacitor-haptics').projectDir = new File('../node_modules/@capacitor/haptics/android')
 
@@ -25,3 +28,6 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 
 include ':callme-plugin'
 project(':callme-plugin').projectDir = new File('../AppCallPlugin/android')
+
+include ':capacitor-voice-recorder'
+project(':capacitor-voice-recorder').projectDir = new File('../node_modules/capacitor-voice-recorder/android')

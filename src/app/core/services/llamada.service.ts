@@ -25,7 +25,7 @@ export class LlamadaService {
     }
 
     try {
-      await (window as any).Capacitor.Plugins.MyCustomPlugin.startCall({
+      await (window as any).Capacitor.Plugins.AppCallPlugin.startCall({
         meetingId: meeting,
         userName: name,
       });
