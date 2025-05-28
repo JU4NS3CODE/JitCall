@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'test-call',
     pathMatch: 'full'
   },
   {
@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'guardar-contacto',
     loadChildren: () => import('./pages/guardar-contacto/guardar-contacto.module').then( m => m.GuardarContactoPageModule)
+  },
+  {
+    path: 'test-call',
+    loadChildren: () => import('./pages/test-call/test-call.module').then( m => m.TestCallPageModule)
   },
 ];
 

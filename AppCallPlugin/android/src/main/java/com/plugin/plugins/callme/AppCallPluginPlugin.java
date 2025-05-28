@@ -19,7 +19,7 @@ import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@CapacitorPlugin(name = "CallmePlugin")
+@CapacitorPlugin(name = "AppCallPlugin")
 public class AppCallPluginPlugin extends Plugin {
 
   private BroadcastReceiver broadcastReceiver;
